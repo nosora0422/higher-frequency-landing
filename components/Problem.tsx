@@ -49,32 +49,36 @@ export default function Problem() {
     <>
       <section
         id="problem"
-        className="flex flex-col items-center justify-center gap-[12px] px-[64px] py-[96px] text-center"
+        className="flex flex-col items-center justify-center gap-[12px] px-5 py-16 text-center md:px-10 lg:px-[64px] lg:py-[96px]"
       >
         <Image
           src="/assets/icon-monetization.svg"
           alt=""
           width={62}
           height={62}
-          className="mb-[10px]"
+          className="mb-[10px] h-10 w-10 lg:h-[62px] lg:w-[62px]"
         />
-        <h2 className="max-w-[1158px] text-[60px] leading-[60.4px] tracking-[-1.5px] font-normal text-text">
+        <h2 className="max-w-[1158px] text-[28px] leading-[32px] tracking-[-0.6px] font-normal text-text sm:text-[38px] sm:leading-[40px] lg:text-[60px] lg:leading-[60.4px] lg:tracking-[-1.5px]">
           Don&rsquo;t let broken systems steal your money.
         </h2>
-        <p className="max-w-[1204px] text-[60px] leading-[60.4px] tracking-[-1.5px] font-normal text-text-grey">
+        <p className="max-w-[1204px] text-[28px] leading-[32px] tracking-[-0.6px] font-normal text-text-grey sm:text-[38px] sm:leading-[40px] lg:text-[60px] lg:leading-[60.4px] lg:tracking-[-1.5px]">
           Every time you post a link, commissions slip through gaps you can&rsquo;t see.
         </p>
       </section>
 
-      <section className="flex flex-col items-center gap-[48px] border-b border-border-grey px-[64px] py-[96px]">
-        <div className="flex h-[340px] w-full">
+      <section className="flex flex-col items-center gap-8 border-b border-border-grey px-5 py-16 md:px-10 lg:gap-[48px] lg:px-[64px] lg:py-[96px]">
+        <div className="flex w-full flex-col gap-4 lg:h-[340px] lg:flex-row lg:gap-0">
           {cards.map((card) => (
             <div
               key={card.title}
-              className={`flex flex-1 min-w-0 flex-col ${
+              className={`flex flex-col ${
                 card.stat ? "justify-between" : ""
-              } px-[24px] py-[28px] ${card.shaded ? "bg-[#f5f5f5]" : "bg-paper"} ${
-                card.fullBorder ? "border border-border-grey" : "border-y border-l border-border-grey"
+              } gap-6 rounded-[12px] border border-border-grey px-6 py-6 lg:flex-1 lg:min-w-0 lg:gap-0 lg:rounded-none lg:px-[24px] lg:py-[28px] ${
+                card.shaded ? "bg-[#f5f5f5]" : "bg-paper"
+              } ${
+                card.fullBorder
+                  ? "lg:border lg:border-border-grey"
+                  : "lg:border-y lg:border-l lg:border-r-0 lg:border-border-grey"
               }`}
             >
               <div className={`flex flex-col ${card.gap}`}>
@@ -93,7 +97,7 @@ export default function Problem() {
             </div>
           ))}
         </div>
-        <p className="text-[28px] font-medium leading-[34px] tracking-[-0.56px] text-text">
+        <p className="text-[20px] font-medium leading-[26px] tracking-[-0.4px] text-text lg:text-[28px] lg:leading-[34px] lg:tracking-[-0.56px]">
           With our tech, none of these failures exist.
         </p>
       </section>

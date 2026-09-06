@@ -94,43 +94,49 @@ export default function Proof() {
   return (
     <section
       id="proof"
-      className="relative flex gap-[48px] border-b border-border-grey bg-ink px-[64px] py-[96px]"
+      className="relative flex flex-col gap-10 border-b border-border-grey bg-ink px-5 py-12 md:px-10 lg:flex-row lg:gap-[48px] lg:px-[64px] lg:py-[96px]"
     >
-      <div className="flex max-w-[640px] flex-col gap-[48px] py-[96px]">
+      <div className="flex flex-col gap-10 lg:max-w-[640px] lg:gap-[48px] lg:py-[96px]">
         <div>
-          <h2 className="text-[40px] leading-[44px] tracking-[-1.2px] font-medium text-paper">
+          <h2 className="text-[28px] leading-[32px] tracking-[-0.6px] font-medium text-paper sm:text-[34px] sm:leading-[38px] lg:text-[40px] lg:leading-[44px] lg:tracking-[-1.2px]">
             Proof, not promises.
           </h2>
-          <p className="mt-[12px] text-[20px] leading-[26px] tracking-[-0.3px] text-text-grey-light">
+          <p className="mt-[12px] text-[17px] leading-[24px] tracking-[-0.2px] text-text-grey-light lg:text-[20px] lg:leading-[26px] lg:tracking-[-0.3px]">
             We don&rsquo;t claim it. We show it, down to the second.
           </p>
         </div>
 
-        <div className="flex flex-col gap-[40px]">
-          <p className="text-[17px] leading-[24px] text-paper">
+        <div className="flex flex-col gap-8 lg:gap-[40px]">
+          <p className="text-[16px] leading-[23px] text-paper lg:text-[17px] lg:leading-[24px]">
             The instant a click happens, Higher Frequency&rsquo;s servers timestamp it. That
             record doesn&rsquo;t depend on a browser or a cookie, so there&rsquo;s no moment for an
             extension to step in.
           </p>
-          <div className="flex items-center gap-[10px] pt-[24px]">
-            {logicSteps.map((step, i) => (
-              <div key={step.label} className="contents">
-                <div className="flex flex-col items-center gap-2">
-                  <Image src={step.dot} alt="" width={24} height={24} />
-                  <p
-                    className={`whitespace-nowrap text-center text-[13px] font-semibold ${
-                      step.muted ? "text-text-grey" : "text-paper"
-                    }`}
-                  >
-                    {step.label}
-                  </p>
-                  <p className="text-[11px] text-text-grey">{step.time}</p>
+          <div className="-mx-5 overflow-x-auto px-5 md:mx-0 md:px-0">
+            <div className="flex items-center gap-[10px] pt-[24px]">
+              {logicSteps.map((step, i) => (
+                <div key={step.label} className="contents">
+                  <div className="flex flex-col items-center gap-2">
+                    <Image src={step.dot} alt="" width={24} height={24} />
+                    <p
+                      className={`whitespace-nowrap text-center text-[13px] font-semibold ${
+                        step.muted ? "text-text-grey" : "text-paper"
+                      }`}
+                    >
+                      {step.label}
+                    </p>
+                    <p className="whitespace-nowrap text-[11px] text-text-grey">{step.time}</p>
+                  </div>
+                  {i < logicSteps.length - 1 && (
+                    <span
+                      className={`h-[2px] w-[40px] flex-shrink-0 sm:w-[60px] lg:w-[80px] ${
+                        i === 0 ? "bg-paper" : "bg-border-grey"
+                      }`}
+                    />
+                  )}
                 </div>
-                {i < logicSteps.length - 1 && (
-                  <span className={`h-[2px] w-[80px] ${i === 0 ? "bg-paper" : "bg-border-grey"}`} />
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -139,13 +145,13 @@ export default function Proof() {
         </Button>
       </div>
 
-      <div className="relative flex flex-1 justify-end">
-        <div className="mt-[96px] w-[611px] max-w-full rounded-[24px] border border-[#2e2e2e] bg-[#1a1a1a] p-[28px]">
+      <div className="relative w-full lg:flex lg:flex-1 lg:justify-end">
+        <div className="w-full rounded-[24px] border border-[#2e2e2e] bg-[#1a1a1a] p-5 lg:mt-[96px] lg:w-[611px] lg:max-w-full lg:p-[28px]">
           <div className="flex items-start justify-between pb-[20px]">
-            <p className="font-mono text-[12px] font-semibold tracking-[1px] text-text-grey-light">
+            <p className="font-mono text-[11px] font-semibold tracking-[1px] text-text-grey-light lg:text-[12px]">
               CUSTOMER STATUS &middot; IN REVIEW
             </p>
-            <p className="text-[11px] font-semibold tracking-[0.22px] text-signal-blue">
+            <p className="text-right text-[10px] font-semibold tracking-[0.22px] text-signal-blue lg:text-[11px]">
               This Commission is contested
             </p>
           </div>
@@ -153,24 +159,24 @@ export default function Proof() {
             {timelineRows.map((row, i) => (
               <div
                 key={i}
-                className={`flex items-center gap-[16px] py-[14px] ${
+                className={`flex items-center gap-[12px] py-[14px] lg:gap-[16px] ${
                   i < timelineRows.length - 1 ? "border-b border-[#2e2e2e]" : ""
                 }`}
               >
                 <div
-                  className={`flex h-[44px] w-[44px] flex-shrink-0 items-center justify-center rounded-[22px] border-[1.5px] ${
+                  className={`flex h-[36px] w-[36px] flex-shrink-0 items-center justify-center rounded-[18px] border-[1.5px] lg:h-[44px] lg:w-[44px] lg:rounded-[22px] ${
                     row.iconBg ? `${row.iconBg} border-transparent` : "border-[#2e2e2e] bg-[#1a1a1a]"
                   }`}
                 >
-                  <Image src={row.icon} alt="" width={20} height={20} />
+                  <Image src={row.icon} alt="" width={20} height={20} className="h-4 w-4 lg:h-5 lg:w-5" />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col gap-1">
-                  <p className="text-[14px] font-semibold text-paper">{row.title}</p>
-                  <p className={`text-[12px] ${row.subtextColor ?? "text-text-grey-light"}`}>
+                  <p className="text-[13px] font-semibold text-paper lg:text-[14px]">{row.title}</p>
+                  <p className={`text-[11px] lg:text-[12px] ${row.subtextColor ?? "text-text-grey-light"}`}>
                     {row.subtext}
                   </p>
                 </div>
-                <p className="whitespace-nowrap font-mono text-[12px] text-text-grey-light">
+                <p className="hidden whitespace-nowrap font-mono text-[12px] text-text-grey-light sm:block">
                   {row.time}
                 </p>
               </div>
@@ -178,10 +184,7 @@ export default function Proof() {
           </div>
         </div>
 
-        <div
-          className="absolute left-1/2 top-[426px] w-[569px] max-w-[90vw] rounded-[24px] bg-ink px-[26px] pb-[30px] pt-[26px] shadow-[0_16px_32px_-8px_rgba(12,12,13,0.4)]"
-          style={{ transform: "translateX(calc(-50% - 35.5px))" }}
-        >
+        <div className="mt-6 w-full rounded-[24px] bg-ink px-5 py-6 shadow-[0_16px_32px_-8px_rgba(12,12,13,0.4)] lg:absolute lg:left-1/2 lg:top-[426px] lg:mt-0 lg:w-[569px] lg:max-w-[90vw] lg:px-[26px] lg:pb-[30px] lg:pt-[26px] lg:[transform:translateX(calc(-50%_-_35.5px))]">
           <div className="flex items-center justify-between">
             <div className="flex h-[12px] items-end gap-[2px]">
               <span className="h-[5px] w-[3px] bg-paper" />
@@ -212,7 +215,7 @@ export default function Proof() {
             YOUR PAYOUT
           </p>
           <div className="mt-[8px] flex items-end justify-between">
-            <p className="font-display font-bold text-[56px] tracking-[-2.52px] text-paper">
+            <p className="font-display font-bold text-[42px] tracking-[-1.9px] text-paper lg:text-[56px] lg:tracking-[-2.52px]">
               $1,284.00
             </p>
             <div className="flex items-center border-[1.5px] border-signal-blue px-[9px] py-[6px] -rotate-[5deg]">

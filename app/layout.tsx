@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable} bg-paper text-text font-body mx-auto max-w-[1440px] border-x border-border-grey`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable} bg-paper text-text font-body mx-auto max-w-[1440px] overflow-x-hidden border-border-grey lg:border-x`}
       >
         {children}
       </body>

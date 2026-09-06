@@ -40,20 +40,23 @@ const tiers = [
 
 export default function Tiers() {
   return (
-    <section id="tiers" className="flex flex-col gap-[37px] border-b border-border-grey px-[64px] py-[96px]">
+    <section
+      id="tiers"
+      className="flex flex-col gap-[28px] border-b border-border-grey px-5 py-16 md:px-10 lg:gap-[37px] lg:px-[64px] lg:py-[96px]"
+    >
       <div>
-        <h2 className="text-[40px] leading-[44px] tracking-[-1.2px] font-medium text-text">
+        <h2 className="text-[28px] leading-[32px] tracking-[-0.6px] font-medium text-text sm:text-[34px] sm:leading-[38px] lg:text-[40px] lg:leading-[44px] lg:tracking-[-1.2px]">
           It scales with what you earn.
         </h2>
-        <p className="mt-[12px] text-[20px] leading-[26px] tracking-[-0.3px] text-text-grey">
+        <p className="mt-[12px] text-[17px] leading-[24px] tracking-[-0.2px] text-text-grey lg:text-[20px] lg:leading-[26px] lg:tracking-[-0.3px]">
           Coming soon: tiers based on what you&rsquo;ve sold, not follower count.
         </p>
       </div>
-      <div className="flex gap-[20px] pt-[36px]">
+      <div className="flex flex-col gap-5 pt-4 lg:gap-[20px] lg:pt-[36px] lg:flex-row">
         {tiers.map((tier) => (
           <div
             key={tier.title}
-            className="flex h-[456px] flex-1 min-w-0 flex-col justify-between bg-white p-[36px]"
+            className="flex flex-col justify-between gap-8 bg-white p-6 lg:h-[456px] lg:flex-1 lg:min-w-0 lg:gap-0 lg:p-[36px]"
           >
             <div className="flex flex-col gap-[24px]">
               <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22px] text-text-grey">
@@ -68,7 +71,10 @@ export default function Tiers() {
               <p className="text-[13px] leading-[19px] text-text-grey">{tier.desc}</p>
               <ul className="flex flex-col gap-[10px]">
                 {tier.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-[10px] text-[14px] leading-[21px] text-text">
+                  <li
+                    key={feature}
+                    className="flex items-center gap-[10px] text-[14px] leading-[21px] text-text"
+                  >
                     <Image src={tier.icon} alt="" width={16} height={16} className="flex-shrink-0" />
                     {feature}
                   </li>
