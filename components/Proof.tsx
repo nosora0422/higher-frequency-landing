@@ -247,16 +247,19 @@ export default function Proof() {
       </div>
 
       <div className="relative w-full lg:flex lg:flex-1 lg:justify-end">
-        <div ref={statusViewportRef} className="w-full lg:mt-[96px] lg:w-[611px] lg:max-w-full lg:overflow-hidden">
+        <div
+          ref={statusViewportRef}
+          className="w-full lg:mt-[96px] lg:h-[calc(100vh-96px)] lg:w-[611px] lg:max-w-full lg:overflow-hidden"
+        >
           <div
             ref={statusCardRef}
-            className="w-full rounded-[24px] border border-[#2e2e2e] bg-[#1a1a1a] p-5 lg:p-[28px]"
+            className="w-full rounded-[24px] border border-[#2e2e2e] bg-[#1a1a1a] p-5 lg:p-[40px]"
           >
-            <div className="flex items-start justify-between pb-[20px]">
-              <p className="font-mono text-[11px] font-semibold tracking-[1px] text-text-grey-light lg:text-[12px]">
+            <div className="flex items-start justify-between pb-[20px] lg:pb-[32px]">
+              <p className="font-mono text-[11px] font-semibold tracking-[1px] text-text-grey-light lg:text-[16px]">
                 CUSTOMER STATUS &middot; IN REVIEW
               </p>
-              <p className="text-right text-[10px] font-semibold tracking-[0.22px] text-signal-blue lg:text-[11px]">
+              <p className="text-right text-[10px] font-semibold tracking-[0.22px] text-signal-blue lg:text-[15px]">
                 This Commission is contested
               </p>
             </div>
@@ -264,12 +267,12 @@ export default function Proof() {
               {timelineRows.map((row, i) => (
                 <div
                   key={i}
-                  className={`flex items-center gap-[12px] py-[14px] lg:gap-[16px] ${
+                  className={`flex items-center gap-[12px] py-[14px] lg:gap-[22px] lg:py-[24px] ${
                     i < timelineRows.length - 1 ? "border-b border-[#2e2e2e]" : ""
                   }`}
                 >
                   <div
-                    className={`flex h-[36px] w-[36px] flex-shrink-0 items-center justify-center rounded-[18px] border-[1.5px] lg:h-[44px] lg:w-[44px] lg:rounded-[22px] ${
+                    className={`flex h-[36px] w-[36px] flex-shrink-0 items-center justify-center rounded-[18px] border-[1.5px] lg:h-[64px] lg:w-[64px] lg:rounded-[32px] ${
                       row.iconBg ? `${row.iconBg} border-transparent` : "border-[#2e2e2e] bg-[#1a1a1a]"
                     }`}
                   >
@@ -278,16 +281,16 @@ export default function Proof() {
                       alt=""
                       width={20}
                       height={20}
-                      className="h-4 w-4 lg:h-5 lg:w-5"
+                      className="h-4 w-4 lg:h-8 lg:w-8"
                     />
                   </div>
-                  <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <p className="text-[13px] font-semibold text-paper lg:text-[14px]">{row.title}</p>
-                    <p className={`text-[11px] lg:text-[12px] ${row.subtextColor ?? "text-text-grey-light"}`}>
+                  <div className="flex min-w-0 flex-1 flex-col gap-1 lg:gap-[6px]">
+                    <p className="text-[13px] font-semibold text-paper lg:text-[20px]">{row.title}</p>
+                    <p className={`text-[11px] lg:text-[16px] ${row.subtextColor ?? "text-text-grey-light"}`}>
                       {row.subtext}
                     </p>
                   </div>
-                  <p className="hidden whitespace-nowrap font-mono text-[12px] text-text-grey-light sm:block">
+                  <p className="hidden whitespace-nowrap font-mono text-[12px] text-text-grey-light sm:block lg:text-[16px]">
                     {row.time}
                   </p>
                 </div>
