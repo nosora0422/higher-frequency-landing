@@ -25,7 +25,7 @@ export default function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="flex flex-col gap-[24px] border-b border-border-grey px-5 py-16 md:px-10 lg:px-[64px] lg:py-[96px]"
+      className="flex flex-col gap-[24px] border-b border-border-grey px-5 py-16 md:px-10 lg:min-h-screen lg:justify-center lg:px-[64px] lg:py-[96px]"
     >
       <div>
         <h2 className="text-[28px] leading-[32px] tracking-[-0.6px] font-medium text-text sm:text-[34px] sm:leading-[38px] lg:text-[40px] lg:leading-[44px] lg:tracking-[-1.2px]">

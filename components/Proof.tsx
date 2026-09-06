@@ -192,7 +192,7 @@ export default function Proof() {
     <section
       ref={sectionRef}
       id="proof"
-      className="relative flex flex-col gap-10 border-b border-border-grey bg-ink px-5 py-12 md:px-10 lg:flex-row lg:gap-[48px] lg:px-[64px] lg:py-0"
+      className="relative flex flex-col gap-10 border-b border-border-grey bg-ink px-5 py-12 md:px-10 lg:min-h-screen lg:flex-row lg:items-center lg:gap-[48px] lg:px-[64px] lg:py-0"
     >
       <div className="flex flex-col gap-10 lg:max-w-[640px] lg:gap-[48px] lg:py-[96px]">
         <div>
