@@ -1,5 +1,13 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import Button from "./Button";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const logicSteps = [
   { dot: "/assets/dot-filled-blue.svg", label: "Clicked", time: "12:04:03", muted: false },
@@ -90,11 +98,73 @@ const timelineRows: {
   },
 ];
 
+// Height (px) of the visible "window" onto the timeline list once it's pinned,
+// at the lg breakpoint — tuned to show roughly the first five rows.
+const TIMELINE_VIEWPORT_HEIGHT = 440;
+
 export default function Proof() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: "(min-width: 1024px)",
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+        },
+        (context) => {
+          const { isDesktop, reduceMotion } = context.conditions as {
+            isDesktop: boolean;
+            reduceMotion: boolean;
+          };
+
+          if (!isDesktop || reduceMotion) return;
+          const track = trackRef.current;
+          const list = listRef.current;
+          const section = sectionRef.current;
+          if (!track || !list || !section) return;
+
+          const getDistance = () =>
+            Math.max(0, list.scrollHeight - TIMELINE_VIEWPORT_HEIGHT);
+
+          gsap.set(track, { height: TIMELINE_VIEWPORT_HEIGHT, overflow: "hidden" });
+
+          const tween = gsap.to(list, {
+            y: () => -getDistance(),
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top top",
+              end: () => `+=${getDistance() + 200}`,
+              scrub: 1,
+              pin: true,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          return () => {
+            tween.scrollTrigger?.kill();
+            tween.kill();
+            gsap.set(track, { clearProps: "height,overflow" });
+            gsap.set(list, { clearProps: "transform" });
+          };
+        },
+      );
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
+
   return (
     <section
+      ref={sectionRef}
       id="proof"
-      className="relative flex flex-col gap-10 border-b border-border-grey bg-ink px-5 py-12 md:px-10 lg:flex-row lg:gap-[48px] lg:px-[64px] lg:py-[96px]"
+      className="relative flex flex-col gap-10 border-b border-border-grey bg-ink px-5 py-12 md:px-10 lg:flex-row lg:gap-[48px] lg:px-[64px] lg:py-0"
     >
       <div className="flex flex-col gap-10 lg:max-w-[640px] lg:gap-[48px] lg:py-[96px]">
         <div>
@@ -155,32 +225,40 @@ export default function Proof() {
               This Commission is contested
             </p>
           </div>
-          <div className="flex flex-col">
-            {timelineRows.map((row, i) => (
-              <div
-                key={i}
-                className={`flex items-center gap-[12px] py-[14px] lg:gap-[16px] ${
-                  i < timelineRows.length - 1 ? "border-b border-[#2e2e2e]" : ""
-                }`}
-              >
+          <div ref={trackRef} className="lg:overflow-hidden">
+            <div ref={listRef} className="flex flex-col">
+              {timelineRows.map((row, i) => (
                 <div
-                  className={`flex h-[36px] w-[36px] flex-shrink-0 items-center justify-center rounded-[18px] border-[1.5px] lg:h-[44px] lg:w-[44px] lg:rounded-[22px] ${
-                    row.iconBg ? `${row.iconBg} border-transparent` : "border-[#2e2e2e] bg-[#1a1a1a]"
+                  key={i}
+                  className={`flex items-center gap-[12px] py-[14px] lg:gap-[16px] ${
+                    i < timelineRows.length - 1 ? "border-b border-[#2e2e2e]" : ""
                   }`}
                 >
-                  <Image src={row.icon} alt="" width={20} height={20} className="h-4 w-4 lg:h-5 lg:w-5" />
-                </div>
-                <div className="flex min-w-0 flex-1 flex-col gap-1">
-                  <p className="text-[13px] font-semibold text-paper lg:text-[14px]">{row.title}</p>
-                  <p className={`text-[11px] lg:text-[12px] ${row.subtextColor ?? "text-text-grey-light"}`}>
-                    {row.subtext}
+                  <div
+                    className={`flex h-[36px] w-[36px] flex-shrink-0 items-center justify-center rounded-[18px] border-[1.5px] lg:h-[44px] lg:w-[44px] lg:rounded-[22px] ${
+                      row.iconBg ? `${row.iconBg} border-transparent` : "border-[#2e2e2e] bg-[#1a1a1a]"
+                    }`}
+                  >
+                    <Image
+                      src={row.icon}
+                      alt=""
+                      width={20}
+                      height={20}
+                      className="h-4 w-4 lg:h-5 lg:w-5"
+                    />
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col gap-1">
+                    <p className="text-[13px] font-semibold text-paper lg:text-[14px]">{row.title}</p>
+                    <p className={`text-[11px] lg:text-[12px] ${row.subtextColor ?? "text-text-grey-light"}`}>
+                      {row.subtext}
+                    </p>
+                  </div>
+                  <p className="hidden whitespace-nowrap font-mono text-[12px] text-text-grey-light sm:block">
+                    {row.time}
                   </p>
                 </div>
-                <p className="hidden whitespace-nowrap font-mono text-[12px] text-text-grey-light sm:block">
-                  {row.time}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
