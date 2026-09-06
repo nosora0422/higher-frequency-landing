@@ -5,9 +5,9 @@ export default function ForBrands() {
   return (
     <section
       id="for-brands"
-      className="flex flex-col border-b border-border-grey bg-white py-12 lg:flex-row lg:items-center lg:justify-between lg:py-[96px]"
+      className="flex flex-col border-b border-border-grey bg-white py-12 lg:flex-row lg:items-center lg:justify-between lg:py-[0px]"
     >
-      <div className="flex flex-1 min-w-0 flex-col gap-8 px-5 md:px-10 lg:gap-0 lg:justify-between lg:self-stretch lg:px-[64px]">
+      <div className="flex flex-1 min-w-0 flex-col gap-8 px-5 md:px-10 lg:gap-0 lg:justify-between lg:self-stretch lg:px-[64px] lg:py-[96px]">
         <div className="flex flex-col gap-[12px]">
           <h2 className="max-w-[560px] text-[28px] leading-[32px] tracking-[-0.6px] font-medium text-text sm:text-[34px] sm:leading-[38px] lg:text-[40px] lg:leading-[44px] lg:tracking-[-1.2px]">
             Got your own Shopify store?

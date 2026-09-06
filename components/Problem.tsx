@@ -3,6 +3,8 @@ import Image from "next/image";
 const cards = [
   {
     title: "Checkout Theft",
+    icon: "/assets/icon-error.svg",
+    iconSize: { width: 24, height: 24 },
     titleSize: "text-[16px]",
     descSize: "text-[14px]",
     descColor: "text-text",
@@ -14,6 +16,8 @@ const cards = [
   },
   {
     title: "Ad Blockers",
+    icon: "/assets/icon-do-not-disturb.svg",
+    iconSize: { width: 24, height: 24 },
     titleSize: "text-[16px]",
     descSize: "text-[14px]",
     descColor: "text-text-grey",
@@ -25,6 +29,8 @@ const cards = [
   },
   {
     title: "The 7-Day Wall",
+    icon: "/assets/icon-schedule.svg",
+    iconSize: { width: 24, height: 24 },
     titleSize: "text-[16px]",
     descSize: "text-[14px]",
     descColor: "text-text-grey",
@@ -34,6 +40,8 @@ const cards = [
   },
   {
     title: "Device Switch",
+    icon: "/assets/icon-swap-horiz.svg",
+    iconSize: { width: 24, height: 19 },
     titleSize: "text-[17px]",
     descSize: "text-[15px]",
     descColor: "text-text-grey",
@@ -82,7 +90,12 @@ export default function Problem() {
               }`}
             >
               <div className={`flex flex-col ${card.gap}`}>
-                <Image src="/assets/icon-problem-card.png" alt="" width={36} height={36} />
+                <Image
+                  src={card.icon}
+                  alt=""
+                  width={card.iconSize.width}
+                  height={card.iconSize.height}
+                />
                 <p className={`font-semibold text-text ${card.titleSize}`}>{card.title}</p>
                 <p className={`max-w-[260px] leading-[21px] ${card.descSize} ${card.descColor}`}>
                   {card.desc}
