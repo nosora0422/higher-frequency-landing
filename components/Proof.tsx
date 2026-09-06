@@ -292,10 +292,18 @@ export default function Proof() {
             </div>
           </div>
         </div>
+      </div>
 
+      {/*
+        Static centering wrapper — kept free of any GSAP-driven transform so
+        it can center the card with a plain CSS translate(-50%,-50%) without
+        fighting the entrance animation below. Only its child (the actual
+        card) is animated.
+      */}
+      <div className="lg:absolute lg:left-1/2 lg:top-1/2 lg:w-[569px] lg:max-w-[90vw] lg:[transform:translate(-50%,-50%)]">
         <div
           ref={payoutCardRef}
-          className="mt-6 w-full rounded-[24px] bg-ink px-5 py-6 shadow-[0_16px_32px_-8px_rgba(12,12,13,0.4)] lg:absolute lg:left-1/2 lg:top-[426px] lg:mt-0 lg:w-[569px] lg:max-w-[90vw] lg:px-[26px] lg:pb-[30px] lg:pt-[26px] lg:[transform:translateX(calc(-50%_-_35.5px))]"
+          className="mt-6 w-full rounded-[24px] bg-ink px-5 py-6 shadow-[0_16px_32px_-8px_rgba(12,12,13,0.4)] lg:mt-0 lg:px-[26px] lg:pb-[30px] lg:pt-[26px]"
         >
           <div className="flex items-center justify-between">
             <div className="flex h-[12px] items-end gap-[2px]">
