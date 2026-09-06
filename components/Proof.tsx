@@ -98,14 +98,23 @@ const timelineRows: {
   },
 ];
 
-// Height (px) of the visible "window" onto the timeline list once it's pinned,
-// at the lg breakpoint — tuned to show roughly the first five rows.
-const TIMELINE_VIEWPORT_HEIGHT = 440;
+// Height (px) of the visible "window" onto the customer-status card once it's
+// pinned, at the lg breakpoint — tuned to show the header plus roughly five rows.
+const STATUS_VIEWPORT_HEIGHT = 500;
+// Fraction of the status card's own scroll distance after which the payout
+// card starts sliding in (0.9 = starts once the card is 90% scrolled, so its
+// entrance overlaps the card's final 10% as the user keeps scrolling).
+const PAYOUT_ENTRANCE_START = 0.9;
+// Dedicated scroll distance (px) over which the payout card's entrance plays
+// out — kept generous so it reads as a smooth, continuous scroll-in rather
+// than a snap.
+const PAYOUT_ENTRANCE_TRAVEL = 400;
 
 export default function Proof() {
   const sectionRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
+  const statusViewportRef = useRef<HTMLDivElement>(null);
+  const statusCardRef = useRef<HTMLDivElement>(null);
+  const payoutCardRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -123,34 +132,53 @@ export default function Proof() {
           };
 
           if (!isDesktop || reduceMotion) return;
-          const track = trackRef.current;
-          const list = listRef.current;
+          const viewport = statusViewportRef.current;
+          const card = statusCardRef.current;
+          const payout = payoutCardRef.current;
           const section = sectionRef.current;
-          if (!track || !list || !section) return;
+          if (!viewport || !card || !payout || !section) return;
 
-          const getDistance = () =>
-            Math.max(0, list.scrollHeight - TIMELINE_VIEWPORT_HEIGHT);
+          // Measured once at setup — the card's own scroll-through distance
+          // and the point (in px) along it where the payout entrance begins.
+          const cardDistance = Math.max(0, card.scrollHeight - STATUS_VIEWPORT_HEIGHT);
+          const payoutStart = cardDistance * PAYOUT_ENTRANCE_START;
+          const totalDistance = Math.max(cardDistance, payoutStart + PAYOUT_ENTRANCE_TRAVEL) || 1;
 
-          gsap.set(track, { height: TIMELINE_VIEWPORT_HEIGHT, overflow: "hidden" });
+          gsap.set(viewport, { height: STATUS_VIEWPORT_HEIGHT, overflow: "hidden" });
+          gsap.set(payout, { yPercent: 100, autoAlpha: 0 });
 
-          const tween = gsap.to(list, {
-            y: () => -getDistance(),
-            ease: "none",
+          const tl = gsap.timeline({
             scrollTrigger: {
               trigger: section,
               start: "top top",
-              end: () => `+=${getDistance() + 200}`,
-              scrub: 1,
+              end: `+=${totalDistance}`,
+              scrub: true,
               pin: true,
               invalidateOnRefresh: true,
             },
           });
 
+          // 1 timeline "second" == 1px of scroll, so each tween's duration is
+          // just the scroll distance (px) it should play out over.
+          // Scroll the whole status card — header and rows together — up
+          // through its clipped window.
+          tl.to(card, { y: -cardDistance, ease: "none", duration: cardDistance || 1 }, 0);
+          // Once the card is 90% scrolled, the payout card slides up into
+          // place from below over the next 400px of scroll, overlapping the
+          // card's final stretch as the user keeps scrolling.
+          tl.fromTo(
+            payout,
+            { yPercent: 100, autoAlpha: 0 },
+            { yPercent: 0, autoAlpha: 1, ease: "none", duration: PAYOUT_ENTRANCE_TRAVEL },
+            payoutStart,
+          );
+
           return () => {
-            tween.scrollTrigger?.kill();
-            tween.kill();
-            gsap.set(track, { clearProps: "height,overflow" });
-            gsap.set(list, { clearProps: "transform" });
+            tl.scrollTrigger?.kill();
+            tl.kill();
+            gsap.set(viewport, { clearProps: "height,overflow" });
+            gsap.set(card, { clearProps: "transform" });
+            gsap.set(payout, { clearProps: "transform,opacity,visibility" });
           };
         },
       );
@@ -216,17 +244,20 @@ export default function Proof() {
       </div>
 
       <div className="relative w-full lg:flex lg:flex-1 lg:justify-end">
-        <div className="w-full rounded-[24px] border border-[#2e2e2e] bg-[#1a1a1a] p-5 lg:mt-[96px] lg:w-[611px] lg:max-w-full lg:p-[28px]">
-          <div className="flex items-start justify-between pb-[20px]">
-            <p className="font-mono text-[11px] font-semibold tracking-[1px] text-text-grey-light lg:text-[12px]">
-              CUSTOMER STATUS &middot; IN REVIEW
-            </p>
-            <p className="text-right text-[10px] font-semibold tracking-[0.22px] text-signal-blue lg:text-[11px]">
-              This Commission is contested
-            </p>
-          </div>
-          <div ref={trackRef} className="lg:overflow-hidden">
-            <div ref={listRef} className="flex flex-col">
+        <div ref={statusViewportRef} className="w-full lg:mt-[96px] lg:w-[611px] lg:max-w-full lg:overflow-hidden">
+          <div
+            ref={statusCardRef}
+            className="w-full rounded-[24px] border border-[#2e2e2e] bg-[#1a1a1a] p-5 lg:p-[28px]"
+          >
+            <div className="flex items-start justify-between pb-[20px]">
+              <p className="font-mono text-[11px] font-semibold tracking-[1px] text-text-grey-light lg:text-[12px]">
+                CUSTOMER STATUS &middot; IN REVIEW
+              </p>
+              <p className="text-right text-[10px] font-semibold tracking-[0.22px] text-signal-blue lg:text-[11px]">
+                This Commission is contested
+              </p>
+            </div>
+            <div className="flex flex-col">
               {timelineRows.map((row, i) => (
                 <div
                   key={i}
@@ -262,7 +293,10 @@ export default function Proof() {
           </div>
         </div>
 
-        <div className="mt-6 w-full rounded-[24px] bg-ink px-5 py-6 shadow-[0_16px_32px_-8px_rgba(12,12,13,0.4)] lg:absolute lg:left-1/2 lg:top-[426px] lg:mt-0 lg:w-[569px] lg:max-w-[90vw] lg:px-[26px] lg:pb-[30px] lg:pt-[26px] lg:[transform:translateX(calc(-50%_-_35.5px))]">
+        <div
+          ref={payoutCardRef}
+          className="mt-6 w-full rounded-[24px] bg-ink px-5 py-6 shadow-[0_16px_32px_-8px_rgba(12,12,13,0.4)] lg:absolute lg:left-1/2 lg:top-[426px] lg:mt-0 lg:w-[569px] lg:max-w-[90vw] lg:px-[26px] lg:pb-[30px] lg:pt-[26px] lg:[transform:translateX(calc(-50%_-_35.5px))]"
+        >
           <div className="flex items-center justify-between">
             <div className="flex h-[12px] items-end gap-[2px]">
               <span className="h-[5px] w-[3px] bg-paper" />
