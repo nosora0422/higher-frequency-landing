@@ -98,9 +98,6 @@ const timelineRows: {
   },
 ];
 
-// Height (px) of the visible "window" onto the customer-status card once it's
-// pinned, at the lg breakpoint — tuned to show the header plus roughly five rows.
-const STATUS_VIEWPORT_HEIGHT = 500;
 // Fraction of the status card's own scroll distance after which the payout
 // card starts sliding in (0.9 = starts once the card is 90% scrolled, so its
 // entrance overlaps the card's final 10% as the user keeps scrolling).
@@ -138,13 +135,19 @@ export default function Proof() {
           const section = sectionRef.current;
           if (!viewport || !card || !payout || !section) return;
 
+          // The viewport now stretches to fill the available column height via
+          // CSS (flex stretch) rather than a fixed pixel height, so measure
+          // however tall that ends up being — whatever of the card doesn't
+          // fit in it is the "overflowing part" that scrolls.
+          const viewportHeight = viewport.clientHeight;
+
           // Measured once at setup — the card's own scroll-through distance
           // and the point (in px) along it where the payout entrance begins.
-          const cardDistance = Math.max(0, card.scrollHeight - STATUS_VIEWPORT_HEIGHT);
+          const cardDistance = Math.max(0, card.scrollHeight - viewportHeight);
           const payoutStart = cardDistance * PAYOUT_ENTRANCE_START;
           const totalDistance = Math.max(cardDistance, payoutStart + PAYOUT_ENTRANCE_TRAVEL) || 1;
 
-          gsap.set(viewport, { height: STATUS_VIEWPORT_HEIGHT, overflow: "hidden" });
+          gsap.set(viewport, { overflow: "hidden" });
           gsap.set(payout, { yPercent: 100, autoAlpha: 0 });
 
           const tl = gsap.timeline({
@@ -176,7 +179,7 @@ export default function Proof() {
           return () => {
             tl.scrollTrigger?.kill();
             tl.kill();
-            gsap.set(viewport, { clearProps: "height,overflow" });
+            gsap.set(viewport, { clearProps: "overflow" });
             gsap.set(card, { clearProps: "transform" });
             gsap.set(payout, { clearProps: "transform,opacity,visibility" });
           };
@@ -192,7 +195,7 @@ export default function Proof() {
     <section
       ref={sectionRef}
       id="proof"
-      className="relative flex flex-col gap-10 border-b border-border-grey bg-ink px-5 py-12 md:px-10 lg:min-h-screen lg:flex-row lg:items-center lg:gap-[48px] lg:px-[64px] lg:py-0"
+      className="relative flex flex-col gap-10 border-b border-border-grey bg-ink px-5 py-12 md:px-10 lg:min-h-screen lg:flex-row lg:gap-[48px] lg:px-[64px] lg:py-0"
     >
       <div className="flex flex-col gap-10 lg:max-w-[640px] lg:gap-[48px] lg:py-[96px]">
         <div>

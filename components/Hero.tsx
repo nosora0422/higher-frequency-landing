@@ -18,7 +18,7 @@ export default function Hero() {
 
   return (
     <section className="flex flex-col border-b border-border-grey lg:flex-row lg:items-center">
-      <div className="order-2 flex flex-1 min-w-0 flex-col items-start gap-[18px] px-5 py-8 md:px-10 lg:order-1 lg:gap-[24px] lg:px-[64px] lg:pb-[48px] lg:pt-0">
+      <div className="order-2 flex flex-1 min-w-0 flex-col items-start gap-[18px] px-5 py-8 md:px-10 lg:order-1 lg:gap-[24px] lg:px-[64px] lg:pb-[48px] ">
         <div className="rounded-[4px] bg-deep-blue p-[8px]">
           <span className="text-[11px] font-semibold tracking-[2px] text-paper lg:text-[12px]">
             SERVER-SIDE ATTRIBUTION
@@ -55,14 +55,6 @@ export default function Hero() {
           />
           <div className="absolute inset-x-0 bottom-0 h-[26%] bg-gradient-to-t from-black/45 to-transparent backdrop-blur-[2px]" />
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4 lg:p-[24px]">
-            <div>
-              <p className="text-[12px] font-bold text-white sm:text-[13.4px]">
-                Kharis, Graphic Designer
-              </p>
-              <p className="mt-1 text-[13px] text-white sm:text-[15.1px]">
-                Possible member since 2023
-              </p>
-            </div>
             <div className="flex items-center gap-[6px] rounded-[100px] border border-white/10 bg-white/20 px-3 py-2 backdrop-blur-[8px] lg:px-[16px] lg:py-[13.5px]">
               {Array.from({ length: SLIDE_COUNT }).map((_, i) => (
                 <span
