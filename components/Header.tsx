@@ -31,7 +31,7 @@ export default function Header() {
   return (
     <header className="border-b border-border-grey bg-paper">
       <div className="flex items-center justify-between px-5 py-4 md:px-10 lg:px-[64px] lg:py-[24px]">
-        <p className="font-display font-bold text-[17px] tracking-[0.2px] text-text lg:text-[20px]">
+        <p className="font-body font-bold text-[17px] tracking-[0.2px] text-text lg:text-[20px]">
           HIGHER FREQUENCY
         </p>
 
