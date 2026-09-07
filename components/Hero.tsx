@@ -19,8 +19,8 @@ export default function Hero() {
   return (
     <section className="flex flex-col border-b border-border-grey lg:flex-row lg:items-center">
       <div className="order-2 flex flex-1 min-w-0 flex-col items-start gap-[18px] px-5 py-8 md:px-10 lg:order-1 lg:gap-[24px] lg:px-[64px] lg:pb-[48px] ">
-        <div className="rounded-[4px] bg-deep-blue p-[8px]">
-          <span className="text-[11px] font-semibold tracking-[2px] text-paper lg:text-[12px]">
+        <div className="rounded-[4px] bg-deep-blue px-[8px] py-[4px]">
+          <span className="text-[10px] font-semibold tracking-[2px] text-paper lg:text-[12px]">
             SERVER-SIDE ATTRIBUTION
           </span>
         </div>

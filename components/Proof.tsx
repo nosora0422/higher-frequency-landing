@@ -306,7 +306,7 @@ export default function Proof() {
         fighting the entrance animation below. Only its child (the actual
         card) is animated.
       */}
-      <div className="lg:absolute lg:left-1/2 lg:top-1/2 lg:w-[569px] lg:max-w-[90vw] lg:[transform:translate(-50%,-50%)]">
+      <div className="lg:absolute lg:left-1/2 lg:top-3/4 lg:w-[569px] lg:max-w-[90vw] lg:[transform:translate(-50%,-50%)]">
         <div
           ref={payoutCardRef}
           className="mt-6 w-full rounded-[24px] bg-ink px-5 py-6 shadow-[0_16px_32px_-8px_rgba(12,12,13,0.4)] lg:mt-0 lg:px-[26px] lg:pb-[30px] lg:pt-[26px]"

@@ -1,4 +1,13 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 const cards = [
   {
@@ -53,9 +62,51 @@ const cards = [
 ];
 
 export default function Problem() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subRef = useRef<HTMLParagraphElement>(null);
+
+  useGSAP(
+    () => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const heading = headingRef.current;
+      const sub = subRef.current;
+      if (!heading || !sub || reduceMotion) return;
+
+      const elements = [heading, sub];
+      const splits = elements.map((el) => SplitText.create(el, { type: "words, chars" }));
+
+      // Each line gets its own ScrollTrigger, keyed to its own position, so
+      // every line has the same generous scroll distance to fully reveal its
+      // letters before it nears the top of the viewport — instead of both
+      // lines sharing one trigger sized to the whole section, which left the
+      // second (lower) line's last letters stuck half-faded ("clipped") once
+      // the section scrolled past.
+      splits.forEach((split, i) => {
+        gsap.set(split.chars, { opacity: 0.15 });
+
+        gsap.to(split.chars, {
+          opacity: 1,
+          ease: "none",
+          stagger: 0.05,
+          scrollTrigger: {
+            trigger: elements[i],
+            start: "top 90%",
+            end: "top 20%",
+            scrub: true,
+          },
+        });
+      });
+
+      return () => splits.forEach((split) => split.revert());
+    },
+    { scope: sectionRef },
+  );
+
   return (
     <>
       <section
+        ref={sectionRef}
         id="problem"
         className="flex flex-col items-center justify-center gap-[12px] px-5 py-16 text-center md:px-10 lg:px-[64px] lg:py-[96px]"
       >
@@ -66,10 +117,16 @@ export default function Problem() {
           height={62}
           className="mb-[10px] h-10 w-10 lg:h-[62px] lg:w-[62px]"
         />
-        <h2 className="max-w-[1158px] text-[28px] leading-[32px] tracking-[-0.6px] font-normal text-text sm:text-[38px] sm:leading-[40px] lg:text-[60px] lg:leading-[60.4px] lg:tracking-[-1.5px]">
+        <h2
+          ref={headingRef}
+          className="max-w-[1158px] text-[28px] leading-[32px] tracking-[-0.6px] font-normal text-text sm:text-[38px] sm:leading-[40px] lg:text-[60px] lg:leading-[60.4px] lg:tracking-[-1.5px] overflow-visible"
+        >
           Don&rsquo;t let broken systems steal your money.
         </h2>
-        <p className="max-w-[1204px] text-[28px] leading-[32px] tracking-[-0.6px] font-normal text-text-grey sm:text-[38px] sm:leading-[40px] lg:text-[60px] lg:leading-[60.4px] lg:tracking-[-1.5px]">
+        <p
+          ref={subRef}
+          className="max-w-[1204px] text-[28px] leading-[32px] tracking-[-0.6px] font-normal text-text-grey sm:text-[38px] sm:leading-[40px] lg:text-[60px] lg:leading-[60.4px] lg:tracking-[-1.5px]"
+        >
           Every time you post a link, commissions slip through gaps you can&rsquo;t see.
         </p>
       </section>

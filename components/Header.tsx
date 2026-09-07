@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const navLinks = [
   { href: "#problem", label: "The problem" },
@@ -10,6 +14,16 @@ const navLinks = [
   { href: "#for-brands", label: "For brands" },
   { href: "#proof", label: "Proof" },
 ];
+
+// Native `scroll-behavior: smooth` fights GSAP ScrollTrigger's own
+// scrub/pin scroll updates (a documented conflict), so anchor-link smoothing
+// is done by hand here with ScrollToPlugin instead of that CSS property.
+function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  const target = document.querySelector(href);
+  if (!target) return;
+  e.preventDefault();
+  gsap.to(window, { duration: 0.8, scrollTo: { y: target, offsetY: 0 }, ease: "power2.inOut" });
+}
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -23,7 +37,12 @@ export default function Header() {
 
         <nav className="hidden items-center gap-[32px] lg:flex">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="text-[14px] font-medium text-text">
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
+              className="text-[14px] font-medium text-text"
+            >
               {link.label}
             </Link>
           ))}
@@ -71,7 +90,10 @@ export default function Header() {
             key={link.href}
             href={link.href}
             className="py-2 text-[15px] font-medium text-text"
-            onClick={() => setOpen(false)}
+            onClick={(e) => {
+              setOpen(false);
+              handleNavClick(e, link.href);
+            }}
           >
             {link.label}
           </Link>

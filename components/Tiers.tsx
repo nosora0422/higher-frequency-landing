@@ -1,4 +1,8 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
+import gsap from "gsap";
 import Button from "./Button";
 
 const tiers = [
@@ -38,7 +42,32 @@ const tiers = [
   },
 ];
 
+// Classic GSAP hover treatment: the card lifts and scales up slightly with
+// a soft shadow growing in underneath it, then settles back on mouse leave.
+function liftOnEnter(card: HTMLDivElement) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  gsap.to(card, {
+    y: -10,
+    scale: 1.02,
+    boxShadow: "0 24px 48px -16px rgba(18, 18, 18, 0.22)",
+    duration: 0.4,
+    ease: "power3.out",
+  });
+}
+
+function liftOnLeave(card: HTMLDivElement) {
+  gsap.to(card, {
+    y: 0,
+    scale: 1,
+    boxShadow: "0 0px 0px 0px rgba(18, 18, 18, 0)",
+    duration: 0.4,
+    ease: "power3.out",
+  });
+}
+
 export default function Tiers() {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   return (
     <section
       id="tiers"
@@ -53,9 +82,20 @@ export default function Tiers() {
         </p>
       </div>
       <div className="flex flex-col gap-5 pt-4 lg:gap-[20px] lg:pt-[36px] lg:flex-row">
-        {tiers.map((tier) => (
+        {tiers.map((tier, i) => (
           <div
             key={tier.title}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
+            onMouseEnter={() => {
+              const card = cardRefs.current[i];
+              if (card) liftOnEnter(card);
+            }}
+            onMouseLeave={() => {
+              const card = cardRefs.current[i];
+              if (card) liftOnLeave(card);
+            }}
             className="flex flex-col justify-between gap-8 bg-white p-6 lg:h-[456px] lg:flex-1 lg:min-w-0 lg:gap-0 lg:p-[36px]"
           >
             <div className="flex flex-col gap-[24px]">
