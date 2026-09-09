@@ -24,8 +24,11 @@ The current live builds (Field Trip template, current Higher Frequency site) are
   - [Current Higher Frequency site](https://funny-marzipan-63edfe.netlify.app/) — what to move away from visually (too busy, concept not legible).
 
 ## 5. Deliverable
-One landing page, implemented in front-end code (HTML/CSS or the project's existing stack — TBD once repo/template source is available), built from the Figma file:
-- **Figma source:** [Field Trip file, node 69-234](https://www.figma.com/design/bql7kA4JvU9SeyRhQnpbMs/Field-Trip?node-id=69-234&t=bCxEa5smQtUPNw7Z-1)
+One landing page, implemented in the project's Next.js/Tailwind stack, built from the Figma file:
+- **Figma source (current, in use):** [Field Trip file, node 137-650 — "HF — Landing Page"](https://www.figma.com/design/bql7kA4JvU9SeyRhQnpbMs/Field-Trip?node-id=137-650&t=h9VcmQ8c9UObTMHY-1)
+  - Supersedes the earlier reference frame (node 69-234).
+  - This frame is the full page, top to bottom, with section order locked as: Header Nav → Hero → Headline/Problem cards → Kit Section → Glow Section (stats + receipt/timeline) → Tier/Partner pricing (optional) → Brand carousel → For Brands → Final CTA → Footer.
+  - Maps to the existing `components/` structure: `Header`, `Hero`, `Problem`, `HowItWorks`, `Proof` / `StatStrip`, `Tiers`, `BrandCarousel`, `ForBrands`, `FinalCta`, `Footer`.
 
 ## 6. Hard Constraints
 1. **Do not change section layout or order.** The sequence of sections from the Figma design is locked.
@@ -34,8 +37,8 @@ One landing page, implemented in front-end code (HTML/CSS or the project's exist
 4. Market: North America (US, Canada) — copy, imagery, and any locale-specific details should assume this audience.
 
 ## 7. Open Items / Next Steps
-- [ ] Confirm access to the Figma file (authenticate Figma MCP) and pull exact section-by-section design context (spacing, color tokens, type, image assets) before writing code.
-- [ ] Confirm the target tech stack / where this page will live (is there an existing Shopify theme repo to drop this into, or is this a standalone static page for now?). This project folder is currently empty, so no existing codebase to extend.
+- [x] Confirm access to the Figma file (authenticate Figma MCP) — done; working from node 137-650 going forward.
+- [x] Confirm the target tech stack — Next.js + Tailwind, `components/` per-section, already scaffolded.
 - [ ] Confirm final color palette and any locked brand assets (logo, wordmark, icon set) vs. what needs to be designed as part of this refresh.
 - [ ] Confirm copywriting: is final section copy coming from the Figma file directly, or does it need to be drafted/adapted?
 - [ ] Identify image/photography assets referenced in the Figma design and confirm sourcing (stock, provided, or to be generated).

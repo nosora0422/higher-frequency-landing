@@ -71,17 +71,17 @@ export default function Tiers() {
   return (
     <section
       id="tiers"
-      className="flex flex-col gap-[28px] border-b border-border-grey px-5 py-16 md:px-10 lg:min-h-screen lg:justify-center lg:gap-[37px] lg:px-[64px] lg:py-[96px]"
+      className="flex flex-col gap-[28px] border-t border-border-grey bg-cream px-5 py-16 md:px-10 lg:gap-[37px] lg:px-[24px] lg:py-[96px]"
     >
       <div>
-        <h2 className="text-[28px] leading-[32px] tracking-[-0.6px] font-medium text-text sm:text-[34px] sm:leading-[38px] lg:text-[40px] lg:leading-[44px] lg:tracking-[-1.2px]">
+        <h2 className="font-display text-[28px] leading-[32px] tracking-[-0.6px] text-ink sm:text-[34px] sm:leading-[38px] lg:text-[40px] lg:leading-[46px] lg:tracking-[-1.2px]">
           It scales with what you earn.
         </h2>
-        <p className="mt-[12px] text-[17px] leading-[24px] tracking-[-0.2px] text-text-grey lg:text-[20px] lg:leading-[26px] lg:tracking-[-0.3px]">
-          Coming soon: tiers based on what you&rsquo;ve sold, not follower count.
+        <p className="mt-[12px] text-[16px] text-ink">
+          Tiers based on what you&rsquo;ve sold, not follower count.
         </p>
       </div>
-      <div className="flex flex-col gap-5 pt-4 lg:gap-[20px] lg:pt-[36px] lg:flex-row">
+      <div className="flex flex-col gap-5 lg:flex-row lg:gap-[40px]">
         {tiers.map((tier, i) => (
           <div
             key={tier.title}
@@ -96,38 +96,34 @@ export default function Tiers() {
               const card = cardRefs.current[i];
               if (card) liftOnLeave(card);
             }}
-            className="flex flex-col justify-between gap-8 bg-white p-6 lg:h-[456px] lg:flex-1 lg:min-w-0 lg:gap-0 lg:p-[36px]"
+            className="flex flex-col justify-between gap-8 bg-paper p-6  lg:flex-1 lg:min-w-0 lg:gap-0 lg:p-[36px]"
           >
             <div className="flex flex-col gap-[24px]">
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22px] text-text-grey">
+              <p className="font-mono text-[9px] font-medium uppercase tracking-[0.72px] text-ink">
                 {tier.eyebrow}
               </p>
               <div className="flex items-center justify-between">
-                <p className="text-[20px] leading-[26px] tracking-[-0.3px] font-medium text-text">
+                <p className="font-display text-[24px] leading-[26px] tracking-[-0.36px] text-ink">
                   {tier.title}
                 </p>
-                <p className="text-[13px] text-[#0577ff]">{tier.tag}</p>
+                <p className="text-[13px] font-medium text-primary">{tier.tag}</p>
               </div>
-              <p className="text-[13px] leading-[19px] text-text-grey">{tier.desc}</p>
+              <p className="text-[13px] leading-[19px] text-ash">{tier.desc}</p>
+              <div className="h-px w-full bg-ink" />
               <ul className="flex flex-col gap-[10px]">
                 {tier.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className="flex items-center gap-[10px] text-[14px] leading-[21px] text-text"
-                  >
+                  <li key={feature} className="flex items-center gap-[10px] text-[14px] leading-[21px] text-ink">
                     <Image src={tier.icon} alt="" width={16} height={16} className="flex-shrink-0" />
                     {feature}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="flex flex-col gap-2">
-              <Button href="#" variant="blue-disabled" full>
+            <div className="flex flex-col gap-2 mt-6">
+              <Button href="#" variant="outline" full>
                 Join Now
               </Button>
-              <p className="text-[11px] font-semibold tracking-[0.22px] text-[#0577ff]">
-                Coming Soon
-              </p>
+              <p className="text-[11px] font-semibold tracking-[0.22px] text-primary">Coming Soon</p>
             </div>
           </div>
         ))}

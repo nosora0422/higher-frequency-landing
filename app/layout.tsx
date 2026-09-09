@@ -1,24 +1,35 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { Manrope, Prata, IBM_Plex_Mono, Space_Grotesk, Fraunces } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   weight: ["300", "400", "500", "600", "700", "800"],
-  style: ["normal", "italic"],
 });
 
-const spaceGrotesk = Space_Grotesk({
+const prata = Prata({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
-  weight: ["500", "700"],
+  variable: "--font-prata",
+  weight: ["400"],
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   variable: "--font-ibm-plex-mono",
   weight: ["500", "600"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["700"],
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -31,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable} bg-paper text-text font-body mx-auto max-w-[1440px] overflow-x-hidden border-border-grey lg:border-x`}
+        className={`${manrope.variable} ${prata.variable} ${ibmPlexMono.variable} ${spaceGrotesk.variable} ${fraunces.variable} bg-cream text-text font-body w-full overflow-x-hidden`}
       >
         {children}
       </body>

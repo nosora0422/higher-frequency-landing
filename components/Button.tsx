@@ -2,21 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "blue" | "blue-disabled";
+// Two shapes (solid / outline) each available on a light or dark backdrop —
+// matches the "Buttons" component used throughout the Figma file.
+type ButtonVariant = "solid" | "outline" | "outline-light";
 
 const arrowLight = "/assets/icon-arrow-outward-light.svg";
 const arrowDark = "/assets/icon-arrow-outward-dark.svg";
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-ink text-paper text-[16px]",
-  secondary: "bg-transparent text-ink border border-ink text-[14px]",
-  blue: "bg-deep-blue text-paper text-[16px]",
-  "blue-disabled": "bg-deep-blue text-paper text-[14px] opacity-30 pointer-events-none",
+  solid: "bg-ink text-paper hover:bg-ash",
+  outline: "border border-ink text-ink hover:bg-ink hover:text-paper",
+  "outline-light": "border border-paper text-paper hover:bg-paper hover:text-ink",
 };
 
 export default function Button({
   href = "#",
-  variant = "primary",
+  variant = "solid",
   full = false,
   children,
 }: {
@@ -25,16 +26,24 @@ export default function Button({
   full?: boolean;
   children: ReactNode;
 }) {
-  const isLight = variant === "primary" || variant === "blue" || variant === "blue-disabled";
+  const isLight = variant === "solid" || variant === "outline-light";
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center gap-1 rounded-[8px] px-[18px] py-[12px] whitespace-nowrap font-normal ${
+      className={`group inline-flex items-center justify-center gap-1 rounded-pill px-[18px] py-[12px] text-[14px] font-medium whitespace-nowrap transition-colors duration-200 ease-out max-w-[500px] ${
         full ? "w-full" : ""
       } ${variantClasses[variant]}`}
     >
       {children}
-      <Image src={isLight ? arrowLight : arrowDark} alt="" width={24} height={24} />
+      <Image
+        src={isLight ? arrowLight : arrowDark}
+        alt=""
+        width={24}
+        height={24}
+        className={
+          variant !== "solid" ? "transition-[filter] duration-200 ease-out group-hover:invert" : ""
+        }
+      />
     </Link>
   );
 }

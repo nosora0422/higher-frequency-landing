@@ -11,53 +11,36 @@ gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 const cards = [
   {
+    number: "01",
     title: "Checkout Theft",
-    icon: "/assets/icon-error.svg",
-    iconSize: { width: 24, height: 24 },
-    titleSize: "text-[16px]",
-    descSize: "text-[14px]",
-    descColor: "text-text",
-    gap: "gap-3",
+    icon: "/assets/icon-checkout-theft.svg",
     desc: "Honey and similar tools swap your link right before purchase. That sale goes to them.",
     stat: "17%",
     statDesc: "of affiliate budgets vanish to fraud every month.",
-    shaded: true,
   },
   {
+    number: "02",
     title: "Ad Blockers",
-    icon: "/assets/icon-do-not-disturb.svg",
-    iconSize: { width: 24, height: 24 },
-    titleSize: "text-[16px]",
-    descSize: "text-[14px]",
-    descColor: "text-text-grey",
-    gap: "gap-3",
+    icon: "/assets/icon-ad-blockers.svg",
     desc: "Blockers silently strip out the scripts that record affiliate clicks.",
     stat: "42%",
     statDesc: "of your followers block the scripts that record affiliate clicks.",
-    shaded: false,
   },
   {
+    number: "03",
     title: "The 7-Day Wall",
-    icon: "/assets/icon-schedule.svg",
-    iconSize: { width: 24, height: 24 },
-    titleSize: "text-[16px]",
-    descSize: "text-[14px]",
-    descColor: "text-text-grey",
-    gap: "gap-3",
+    icon: "/assets/icon-seven-day-wall.svg",
     desc: "Apple deletes your cookie after 7 days. Any sale after that? You're invisible.",
-    shaded: true,
+    stat: "7d",
+    statDesc: "is all the attribution window you actually get.",
   },
   {
+    number: "04",
     title: "Device Switch",
-    icon: "/assets/icon-swap-horiz.svg",
-    iconSize: { width: 24, height: 19 },
-    titleSize: "text-[17px]",
-    descSize: "text-[15px]",
-    descColor: "text-text-grey",
-    gap: "gap-2",
+    icon: "/assets/icon-device-switch.svg",
     desc: "Discovered on phone, bought on laptop. Cookies can't cross devices. Commission lost.",
-    shaded: false,
-    fullBorder: true,
+    stat: "2×",
+    statDesc: "devices per purchase, one broken attribution chain.",
   },
 ];
 
@@ -73,29 +56,23 @@ export default function Problem() {
       const sub = subRef.current;
       if (!heading || !sub || reduceMotion) return;
 
-      const elements = [heading, sub];
-      const splits = elements.map((el) => SplitText.create(el, { type: "words, chars" }));
+      const splits = [heading, sub].map((el) =>
+        SplitText.create(el, { type: "words, chars" }),
+      );
+      const chars = splits.flatMap((split) => split.chars);
 
-      // Each line gets its own ScrollTrigger, keyed to its own position, so
-      // every line has the same generous scroll distance to fully reveal its
-      // letters before it nears the top of the viewport — instead of both
-      // lines sharing one trigger sized to the whole section, which left the
-      // second (lower) line's last letters stuck half-faded ("clipped") once
-      // the section scrolled past.
-      splits.forEach((split, i) => {
-        gsap.set(split.chars, { opacity: 0.15 });
+      gsap.set(chars, { opacity: 0.15 });
 
-        gsap.to(split.chars, {
-          opacity: 1,
-          ease: "none",
-          stagger: 0.05,
-          scrollTrigger: {
-            trigger: elements[i],
-            start: "top 90%",
-            end: "top 20%",
-            scrub: true,
-          },
-        });
+      gsap.to(chars, {
+        opacity: 1,
+        ease: "none",
+        stagger: 0.05,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "bottom 60%",
+          scrub: true,
+        },
       });
 
       return () => splits.forEach((split) => split.revert());
@@ -108,68 +85,50 @@ export default function Problem() {
       <section
         ref={sectionRef}
         id="problem"
-        className="flex flex-col items-center justify-center gap-[12px] px-5 py-16 text-center md:px-10 lg:px-[64px] lg:py-[96px]"
+        className="flex flex-col items-center justify-center gap-[12px] bg-cream px-5 py-16 text-center font-display md:px-10 lg:px-[64px] lg:py-[180px]"
       >
-        <Image
-          src="/assets/icon-monetization.svg"
-          alt=""
-          width={62}
-          height={62}
-          className="mb-[10px] h-10 w-10 lg:h-[62px] lg:w-[62px]"
-        />
         <h2
           ref={headingRef}
-          className="max-w-[1158px] text-[28px] leading-[32px] tracking-[-0.6px] font-normal text-text sm:text-[38px] sm:leading-[40px] lg:text-[60px] lg:leading-[60.4px] lg:tracking-[-1.5px] overflow-visible"
+          className="max-w-[1158px] text-[28px] leading-[32px] tracking-[-0.6px] text-ink sm:text-[38px] sm:leading-[40px] lg:max-w-[80vw] lg:text-[60px] lg:leading-[68px] lg:tracking-[-1.5px] overflow-visible"
         >
           Don&rsquo;t let broken systems steal your money.
         </h2>
         <p
           ref={subRef}
-          className="max-w-[1204px] text-[28px] leading-[32px] tracking-[-0.6px] font-normal text-text-grey sm:text-[38px] sm:leading-[40px] lg:text-[60px] lg:leading-[60.4px] lg:tracking-[-1.5px]"
+          className="max-w-[1204px] text-[28px] leading-[32px] tracking-[-0.6px] text-text-secondary sm:text-[38px] sm:leading-[40px] lg:max-w-[84vw] lg:text-[60px] lg:leading-[68px] lg:tracking-[-1.5px]"
         >
           Every time you post a link, commissions slip through gaps you can&rsquo;t see.
         </p>
       </section>
 
-      <section className="flex flex-col items-center gap-8 border-b border-border-grey px-5 py-16 md:px-10 lg:gap-[48px] lg:px-[64px] lg:py-[96px]">
-        <div className="flex w-full flex-col gap-4 lg:h-[340px] lg:flex-row lg:gap-0">
+      <section className="flex flex-col items-center gap-10 border border-t-border-grey bg-cream px-5 py-16 md:px-10 lg:gap-[59px] lg:px-[24px] lg:py-[80px]">
+        <p className="font-display text-center text-[28px] leading-[34px] tracking-[-0.6px] text-ink lg:text-[40px] lg:leading-[46px] lg:tracking-[-1.2px]">
+          With our tech, none of these failures exist.
+        </p>
+        <div className="h-[2px] w-[84px] bg-ink" />
+        <div className="flex w-full flex-col gap-3 lg:h-[480px] lg:flex-row lg:overflow-hidden">
           {cards.map((card) => (
             <div
               key={card.title}
-              className={`flex flex-col ${
-                card.stat ? "justify-between" : ""
-              } gap-6 rounded-[12px] border border-border-grey px-6 py-6 lg:flex-1 lg:min-w-0 lg:gap-0 lg:rounded-none lg:px-[24px] lg:py-[28px] ${
-                card.shaded ? "bg-[#f5f5f5]" : "bg-paper"
-              } ${
-                card.fullBorder
-                  ? "lg:border lg:border-border-grey"
-                  : "lg:border-y lg:border-l lg:border-r-0 lg:border-border-grey"
-              }`}
+              className="flex flex-col items-start bg-cream-secondary p-6 lg:h-full lg:flex-1 lg:min-w-0"
             >
-              <div className={`flex flex-col ${card.gap}`}>
-                <Image
-                  src={card.icon}
-                  alt=""
-                  width={card.iconSize.width}
-                  height={card.iconSize.height}
-                />
-                <p className={`font-semibold text-text ${card.titleSize}`}>{card.title}</p>
-                <p className={`max-w-[260px] leading-[21px] ${card.descSize} ${card.descColor}`}>
-                  {card.desc}
+              <div className="flex w-full flex-col items-start gap-[18px]">
+                <p className="font-mono text-[12px] tracking-[1px] text-text-grey">{card.number}</p>
+                <p className="font-display text-[24px] leading-[26px] tracking-[-0.36px] text-ink">
+                  {card.title}
                 </p>
-              </div>
-              {card.stat && (
-                <div className="flex flex-col gap-3">
-                  <p className="font-display font-bold text-[22px] text-deep-blue">{card.stat}</p>
-                  <p className="max-w-[240px] text-[13px] text-text-grey">{card.statDesc}</p>
+                <div className="flex w-full items-center justify-center p-[10px]">
+                  <Image src={card.icon} alt="" width={140} height={140} />
                 </div>
-              )}
+                <div className="flex w-full flex-col items-start gap-2 border-t border-text-grey py-2">
+                  <p className="font-body text-[16px] font-bold text-primary">{card.stat}</p>
+                  <p className="font-body text-[12px] text-text-grey">{card.statDesc}</p>
+                </div>
+                <p className="font-body max-w-full text-[16px] leading-[21px] text-ink">{card.desc}</p>
+              </div>
             </div>
           ))}
         </div>
-        <p className="text-[20px] font-medium leading-[26px] tracking-[-0.4px] text-text lg:text-[28px] lg:leading-[34px] lg:tracking-[-0.56px]">
-          With our tech, none of these failures exist.
-        </p>
       </section>
     </>
   );
