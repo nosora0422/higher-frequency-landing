@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import StatStrip from "@/components/StatStrip";
 import Problem from "@/components/Problem";
 import HowItWorks from "@/components/HowItWorks";
 import Proof from "@/components/Proof";
@@ -15,7 +14,6 @@ export default function Home() {
     <>
       <Header />
       <Hero />
-      <StatStrip />
       <Problem />
       <HowItWorks />
       <Proof />
